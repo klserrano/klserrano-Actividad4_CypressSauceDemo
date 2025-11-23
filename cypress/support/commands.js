@@ -15,17 +15,6 @@ Cypress.Commands.add("co_IniciarSesion", (nombreUsuario, clave) => {
   cy.get(Selectores.BOTON_INGRESAR).click();
 });
 
-// Comando personalizado para obtener nombre y precio del producto
-// Cypress.Commands.add("co_NombrePrecioProducto",(selectorNombre, selectorPrecio) => {
-//     cy.get(selectorNombre).invoke("text").then((text) => {
-//         cy.wrap(text).as("productoNombre");
-//       });
-//     cy.get(selectorPrecio).invoke("text").then((text) => {
-//         cy.wrap(text).as("productoPrecio");
-//       });
-//   }
-// );
-
 // Comando para obtener nombre y precio del producto con alias dinámico
 Cypress.Commands.add("co_NombrePrecioProducto", (aliasProducto, selectorNombre, selectorPrecio) => {
   cy.get(selectorNombre).invoke("text").then((texto) => {
