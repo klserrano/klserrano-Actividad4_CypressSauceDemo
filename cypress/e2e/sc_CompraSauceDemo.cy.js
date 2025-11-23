@@ -1,8 +1,13 @@
 import * as Selector from "../support/selectores";
 
 describe("Flujos de Iniciar Sesion", () => {
+   // Variables para almacenar información de los productos
+  let productosSeleccionados = [];
+  let precioTotal = 0;
+  
   beforeEach(() => {
     cy.visit("");
+    // Validación de que la URL contiene "saucedemo"
     cy.url().should("include", "saucedemo");
     // Uso de fixture para cargar datos de usuario
     cy.fixture("fx_DatosIniciarSesion").as("usuario");
@@ -39,7 +44,7 @@ describe("Flujos de Iniciar Sesion", () => {
     cy.get(Selector.BOTON_REMOVER_MOCHILA).should("exist").and("be.visible");
     cy.get(Selector.BOTON_REMOVER_CHAQUETA).should("exist").and("be.visible");
     cy.get(Selector.BOTON_REMOVER_MAMELUCO).should("exist").and("be.visible");
-    // Usar comando para obtener nombre y precio de los productos agregados
+    // Usar comando para obtener nombre y precio de los productos pagina principal
     cy.co_NombrePrecioProducto("mochila", Selector.NOMBRE_PRODUCTO_MOCHILA, Selector.PRECIO_PRODUCTO_MOCHILA);
     cy.co_NombrePrecioProducto("chaqueta", Selector.NOMBRE_PRODUCTO_CHAQUETA, Selector.PRECIO_PRODUCTO_CHAQUETA);
     cy.co_NombrePrecioProducto("mameluco", Selector.NOMBRE_PRODUCTO_MAMELUCO, Selector.PRECIO_PRODUCTO_MAMELUCO);
