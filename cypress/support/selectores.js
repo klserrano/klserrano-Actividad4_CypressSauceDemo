@@ -50,6 +50,8 @@ export const TOTAL_LABEL = '[data-test="total-label"]';
 export const BOTON_FINISH = '[data-test="finish"]';
 export const INFO_PAGO = '[data-test="payment-info-label"]';
 export const INFO_ENVIO = '[data-test="shipping-info-label"]';
+export const LISTA_PRODUCTOS_RESUMEN = '[data-test="inventory-item-name"]';
+export const LISTA_PRECIOS_RESUMEN = '[data-test="inventory-item-price"]';
 
 // Selectores para la pantalla de Confirmación 
 export const TITULO_COMPLETO = '[data-test="title"]';

@@ -16,47 +16,50 @@ Cypress.Commands.add("co_IniciarSesion", (nombreUsuario, clave) => {
   cy.get(Selector.BOTON_INGRESAR).click();
 });
 
+// Validaciones de inicio de sesión exitosa
+Cypress.Commands.add("co_ValidarInicioSesionExitosa", () => {
+  cy.url().should("include", "/inventory.html");
+  cy.get(Selector.TITULOPRODUCTOS).should("exist").and("be.visible");
+  cy.get(Selector.ICONO_CARRITO).should("exist").and("be.visible");
+});
+
+// Comando para adicionar tres productos al carrito
+Cypress.Commands.add("co_AdicionarProductos", () => {
+  cy.get(Selector.BOTON_AGREGAR_MOCHILA).click();
+  cy.get(Selector.BOTON_AGREGAR_CHAQUETA).click();
+  cy.get(Selector.BOTON_AGREGAR_MAMELUCO).click();
+});
+
+// Comando para verificar que los productos agregados al carrito cambien de estado a "Remove"
+Cypress.Commands.add("co_ValidarEstado", () => {
+  cy.get(Selector.BOTON_REMOVER_MOCHILA).should("exist").and("be.visible").and("contain.text", "Remove");
+  cy.get(Selector.BOTON_REMOVER_CHAQUETA).should("exist").and("be.visible").and("contain.text", "Remove");
+  cy.get(Selector.BOTON_REMOVER_MAMELUCO).should("exist").and("be.visible").and("contain.text", "Remove");
+});
+
+// Comando de navegación al carrito de compras y validaciones
+Cypress.Commands.add("co_NavegarCarritoCompras", () => {
+  cy.get(Selector.ICONO_CARRITO).as('btnCarrito').should("exist").and("be.visible");
+  cy.get('@btnCarrito').click();
+  cy.url().should("include", "/cart.html");
+  cy.get(Selector.TITULOPRODUCTOS).should("contain", "Your Cart");
+});
+
 // Comando para obtener nombre y precio del producto con alias dinámico
-Cypress.Commands.add("co_NombrePrecioProducto", (aliasProducto, selectorNombre, selectorPrecio) => {
-  cy.get(selectorNombre).invoke("text").then((texto) => {
-      cy.wrap(texto.trim()).as(`${aliasProducto}Nombre`);
-    });
+Cypress.Commands.add("co_PrecioProducto", (aliasProducto, selectorPrecio) => {
   cy.get(selectorPrecio).invoke("text").then((texto) => {
       cy.wrap(texto.trim()).as(`${aliasProducto}Precio`);
     });
 });
 
-// Comando para comparar texto del producto en el carrito
-Cypress.Commands.add("co_CompararTextoProducto", (alias, selector) => {
+// Comando para comparar precio del producto en el carrito
+Cypress.Commands.add("co_CompararPrecioProducto", (alias, selector) => {
   cy.get(alias).then((textoGuardado) => {
     cy.get(selector).invoke("text").then((textoActualProceso) => {
         expect(textoActualProceso.trim()).to.eq(textoGuardado.trim());
       });
   });
 });
-
-// Comando para adicionar tres productos al carrito y validar su estado
-Cypress.Commands.add("co_AdicionarProductos_ValidarEstado", () => {
-// Adición de tres productos al carrito
-  cy.get(Selector.BOTON_AGREGAR_MOCHILA).click();
-  cy.get(Selector.BOTON_AGREGAR_CHAQUETA).click();
-  cy.get(Selector.BOTON_AGREGAR_MAMELUCO).click();
-  //Validación: Verificar que los productos agregados al carrito cambien de estado a "Remove"
-  cy.get(Selector.BOTON_REMOVER_MOCHILA).should("exist").and("be.visible").and("contain.text", "Remove");
-  cy.get(Selector.BOTON_REMOVER_CHAQUETA).should("exist").and("be.visible").and("contain.text", "Remove");
-  cy.get(Selector.BOTON_REMOVER_MAMELUCO).should("exist").and("be.visible").and("contain.text", "Remove");
-});
-
-// Comando de navegación al carrito de compras
-Cypress.Commands.add("co_NavegarCarritoCompras", () => {
-  cy.get(Selector.ICONO_CARRITO).click();
-  // Validar que la URL sea la del carrito y el título correspondiente
-  cy.url().should("include", "/cart.html");
-  cy.get(Selector.TITULOPRODUCTOS).should("contain", "Your Cart");
-});
-
-
-
 
 // Validar que los 3 productos están en el resumen
 Cypress.Commands.add("co_ValidarProductosEnResumen", (cantidadEsperada) => {
