@@ -30,3 +30,30 @@ export const NOMBRE_CARRITO_MAMELUCO = '.cart_item_label:has(#remove-sauce-labs-
 export const PRECIO_CARRITO_MAMELUCO = '.cart_item_label:has(#remove-sauce-labs-onesie) [data-test="inventory-item-price"]';
 export const NOMBRE_CARRITO_CHAQUETA = '.cart_item_label:has(#remove-sauce-labs-fleece-jacket) [data-test="inventory-item-name"';
 export const PRECIO_CARRITO_CHAQUETA = '.cart_item_label:has(#remove-sauce-labs-fleece-jacket) [data-test="inventory-item-price"]';
+
+// Selectores para la pantalla de Carrito
+export const BOTON_CHECKOUT = '[data-test="checkout"]';
+export const BOTON_CONTINUE_SHOPPING = '[data-test="continue-shopping"]';
+
+// Selectores para la pantalla de Información del Checkout 
+export const INPUT_NOMBRE = '[data-test="firstName"]';
+export const INPUT_APELLIDO = '[data-test="lastName"]';
+export const INPUT_CODIGO_POSTAL = '[data-test="postalCode"]';
+export const BOTON_CONTINUE = '[data-test="continue"]';
+export const BOTON_CANCEL = '[data-test="cancel"]';
+
+// Selectores para la pantalla de Resumen del Checkout 
+export const TITULO_RESUMEN = '[data-test="title"]';
+export const SUBTOTAL_LABEL = '[data-test="subtotal-label"]';
+export const TAX_LABEL = '[data-test="tax-label"]';
+export const TOTAL_LABEL = '[data-test="total-label"]';
+export const BOTON_FINISH = '[data-test="finish"]';
+export const INFO_PAGO = '[data-test="payment-info-label"]';
+export const INFO_ENVIO = '[data-test="shipping-info-label"]';
+
+// Selectores para la pantalla de Confirmación 
+export const TITULO_COMPLETO = '[data-test="title"]';
+export const MENSAJE_CONFIRMACION = '[data-test="complete-header"]';
+export const TEXTO_CONFIRMACION = '[data-test="complete-text"]';
+export const IMAGEN_CONFIRMACION = '[data-test="pony-express"]';
+export const BOTON_BACK_HOME = '[data-test="back-to-products"]';
