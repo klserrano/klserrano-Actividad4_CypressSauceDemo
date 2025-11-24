@@ -7,21 +7,30 @@ describe("Flujos de iniciar sesión con credenciales inválidas", () => {
   });
 
   it("Inicio de sesión fallido", function () {
-    // Usar comando para prevalidaciones 
+    // Usar comando para prevalidaciones
     cy.co_PreValidaciones();
     // Uso de fixture para cargar datos de usuario invalidos
     cy.fixture("fx_DatosIniciarSesion").then((usuario) => {
       cy.co_IniciarSesion(usuario.nombreUsuarioInv, usuario.claveInv);
     });
     // Validaciones: Mensaje de error y URL
-    cy.get(Selector.MENSAJEERROR).should("exist").and("be.visible").and("contain.text", "Epic sadface: Username and password do not match any user in this service");
-    cy.get(Selector.CONTENEDOR_ERROR).should("have.css", "background-color", "rgb(226, 35, 26)");
+    cy.get(Selector.MENSAJEERROR)
+      .should("exist")
+      .and("be.visible")
+      .and(
+        "contain.text",
+        "Epic sadface: Username and password do not match any user in this service"
+      );
+    cy.get(Selector.CONTENEDOR_ERROR).should(
+      "have.css",
+      "background-color",
+      "rgb(226, 35, 26)"
+    );
     cy.url().should("include", "");
   });
 });
 
 describe("Flujos de iniciar sesión válidos", () => {
-  
   beforeEach(() => {
     const baseUrl = Cypress.config("baseUrl");
     cy.visit(baseUrl);
@@ -52,9 +61,18 @@ describe("Flujos de iniciar sesión válidos", () => {
     // Usar comando de navegación al carrito de compras y validaciones
     cy.co_NavegarCarritoCompras();
     // Usar comando para validar que los precios en el carrito coincidan con los de la página principal
-    cy.co_CompararPrecioProducto("@mochilaPrecio", Selector.PRECIO_CARRITO_MOCHILA);
-    cy.co_CompararPrecioProducto("@chaquetaPrecio", Selector.PRECIO_CARRITO_CHAQUETA);
-    cy.co_CompararPrecioProducto("@mamelucoPrecio", Selector.PRECIO_CARRITO_MAMELUCO);
+    cy.co_CompararPrecioProducto(
+      "@mochilaPrecio",
+      Selector.PRECIO_CARRITO_MOCHILA
+    );
+    cy.co_CompararPrecioProducto(
+      "@chaquetaPrecio",
+      Selector.PRECIO_CARRITO_CHAQUETA
+    );
+    cy.co_CompararPrecioProducto(
+      "@mamelucoPrecio",
+      Selector.PRECIO_CARRITO_MAMELUCO
+    );
   });
 
   it("Completar el proceso de checkout exitosamente", () => {
@@ -64,13 +82,23 @@ describe("Flujos de iniciar sesión válidos", () => {
     // Usar comando para validar que los 3 productos están en el resumen
     cy.co_ValidarProductosEnResumen(3);
     // Iniciar proceso de checkout y validar información pagina
-    cy.get(Selector.BOTON_CHECKOUT).as('btnCheckout').should("be.visible").and("contain", "Checkout");
-    cy.get('@btnCheckout').click();
+    cy.get(Selector.BOTON_CHECKOUT)
+      .as("btnCheckout")
+      .should("be.visible")
+      .and("contain", "Checkout");
+    cy.get("@btnCheckout").click();
     cy.url().should("include", "/checkout-step-one.html");
-    cy.get(Selector.TITULOPRODUCTOS).should("contain","Checkout: Your Information");
-     // Cargar y usar comando para llenar datos de checkout 
+    cy.get(Selector.TITULOPRODUCTOS).should(
+      "contain",
+      "Checkout: Your Information"
+    );
+    // Cargar y usar comando para llenar datos de checkout
     cy.fixture("fx_DatosCheckout").then((datosCheckout) => {
-      cy.co_LlenarFormularioCheckout(datosCheckout.nombre, datosCheckout.apellido, datosCheckout.codigoPostal);
+      cy.co_LlenarFormularioCheckout(
+        datosCheckout.nombre,
+        datosCheckout.apellido,
+        datosCheckout.codigoPostal
+      );
     });
     // Validar que estamos en la página de resumen
     cy.url().should("include", "/checkout-step-two.html");
@@ -79,15 +107,19 @@ describe("Flujos de iniciar sesión válidos", () => {
     // Usar comando para validar que los 3 productos están en el resumen
     cy.co_ValidarProductosEnResumen(3);
     // Validar nombres de los 3 productos visibles en resumen
-    cy.get(Selector.LISTA_PRODUCTOS_RESUMEN).as('listaNomProductos').should("have.length", 3); 
-    cy.get('@listaNomProductos').each(($nombre) => { 
-      cy.wrap($nombre).should("be.visible"); 
+    cy.get(Selector.LISTA_PRODUCTOS_RESUMEN)
+      .as("listaNomProductos")
+      .should("have.length", 3);
+    cy.get("@listaNomProductos").each(($nombre) => {
+      cy.wrap($nombre).should("be.visible");
     });
     // Validar precios de los 3 productos sean visibles y mayores a 0
-    cy.get(Selector.LISTA_PRECIOS_RESUMEN).as('listaPreciosProductos').should("have.length", 3); 
-    cy.get('@listaPreciosProductos').each(($precio) => {
-      cy.wrap($precio).should("be.visible"); 
-      const precio = parseFloat($precio.text().replace("$", "")); 
+    cy.get(Selector.LISTA_PRECIOS_RESUMEN)
+      .as("listaPreciosProductos")
+      .should("have.length", 3);
+    cy.get("@listaPreciosProductos").each(($precio) => {
+      cy.wrap($precio).should("be.visible");
+      const precio = parseFloat($precio.text().replace("$", ""));
       expect(precio).to.be.greaterThan(0);
     });
     // Usar comando para validar el cálculo del total
@@ -97,7 +129,5 @@ describe("Flujos de iniciar sesión válidos", () => {
     cy.get(Selector.BOTON_FINISH).click();
     // **Continuar proceso y mostrar el mensaje: "Thank you for your order!"**
     cy.co_ValidarConfirmacionCompra();
-   });
+  });
 });
-
-
