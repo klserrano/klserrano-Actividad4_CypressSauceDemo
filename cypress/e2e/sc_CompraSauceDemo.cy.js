@@ -54,7 +54,7 @@ describe("Flujos de iniciar sesión válidos", () => {
     // Confirmar que el número de productos en el ícono del carrito es correcto.
     cy.get(Selector.ICONO_CARRITO).should("contain.text", "3");
     // Validar que los precios de los productos son visibles y correctos.
-    // Usar comando para obtener nombre y precio de los productos pagina principal
+    // Usar comando para obtener precio de los productos pagina principal
     cy.co_PrecioProducto("mochila", Selector.PRECIO_PRODUCTO_MOCHILA);
     cy.co_PrecioProducto("chaqueta", Selector.PRECIO_PRODUCTO_CHAQUETA);
     cy.co_PrecioProducto("mameluco", Selector.PRECIO_PRODUCTO_MAMELUCO);
@@ -74,6 +74,27 @@ describe("Flujos de iniciar sesión válidos", () => {
       Selector.PRECIO_CARRITO_MAMELUCO
     );
   });
+
+  it('Validaciones adicionales  de visibilidad de botones', () => {
+    cy.log('**Inicio de Validaciones adicionales de botones**');
+    // Verificar botones: Seleccionar los botones "Add to cart"
+    cy.get(Selector.BOTON_AGREGAR_TSHIRT).click();
+    //Al agregar un producto, el botón cambia a “Remove”'
+    cy.get(Selector.BOTON_REMOVER_TSHIRT)
+      .should('be.visible')
+      .and('contain.text', 'Remove');
+    // Validar que ya no hay un botón "Add to cart" para ese producto
+    cy.get(Selector.BOTON_AGREGAR_TSHIRT).should('not.exist');
+    // Al eliminar el producto, se visualiza nuevamete la opción “Add to cart”
+    cy.get(Selector.BOTON_REMOVER_TSHIRT).click();
+    cy.get(Selector.BOTON_AGREGAR_TSHIRT)
+      .should('be.visible')
+      .and('contain.text', 'Add to cart');
+    // Al eliminar el producto, el botón "Remove" ya no existe
+    cy.get(Selector.BOTON_REMOVER_TSHIRT).should('not.exist');
+
+    cy.log('**Fin de Validaciones adicionales de botones**');
+  })
 
   it("Completar el proceso de checkout exitosamente", () => {
     cy.co_AdicionarProductos();
@@ -125,7 +146,6 @@ describe("Flujos de iniciar sesión válidos", () => {
     // Usar comando para validar el cálculo del total
     cy.co_ValidarTotalCompra();
     // Finalizar la compra
-    cy.get(Selector.BOTON_FINISH).should("exist").and("be.visible");
     cy.get(Selector.BOTON_FINISH).click();
     // **Continuar proceso y mostrar el mensaje: "Thank you for your order!"**
     cy.co_ValidarConfirmacionCompra();

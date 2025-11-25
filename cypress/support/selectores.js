@@ -18,6 +18,8 @@ export const BOTON_AGREGAR_MAMELUCO = "#add-to-cart-sauce-labs-onesie";
 export const BOTON_REMOVER_MAMELUCO = "#remove-sauce-labs-onesie";
 export const BOTON_AGREGAR_CHAQUETA = "#add-to-cart-sauce-labs-fleece-jacket";
 export const BOTON_REMOVER_CHAQUETA = "#remove-sauce-labs-fleece-jacket";
+export const BOTON_AGREGAR_TSHIRT = "#add-to-cart-sauce-labs-bolt-t-shirt";
+export const BOTON_REMOVER_TSHIRT = "#remove-sauce-labs-bolt-t-shirt";
 export const NOMBRE_PRODUCTO_MOCHILA = '.inventory_item:has(#remove-sauce-labs-backpack) [data-test="inventory-item-name"]';
 export const PRECIO_PRODUCTO_MOCHILA = '[data-test="inventory-item-price"]:has(+ #remove-sauce-labs-backpack)';
 export const NOMBRE_PRODUCTO_MAMELUCO = '.inventory_item:has(#remove-sauce-labs-onesie) [data-test="inventory-item-name"]';

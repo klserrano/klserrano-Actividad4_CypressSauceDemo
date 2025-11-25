@@ -105,16 +105,25 @@ Cypress.Commands.add("co_ValidarResumenCompra", () => {
   cy.get(Selector.SUBTOTAL_LABEL).should("be.visible");
   cy.get(Selector.TAX_LABEL).should("be.visible");
   cy.get(Selector.TOTAL_LABEL).should("be.visible");
-  cy.get(Selector.INFO_PAGO).should("be.visible");
-  cy.get(Selector.INFO_ENVIO).should("be.visible");
-  cy.get(Selector.BOTON_FINISH).should("be.visible").and("contain", "Finish");
-  cy.get(Selector.BOTON_CANCEL).should("be.visible").and("contain", "Cancel");
+  cy.get(Selector.INFO_PAGO)
+    .contains("Payment Information")
+    .should("be.visible");
+  cy.get(Selector.INFO_ENVIO)
+    .contains("Shipping Information")
+    .should("be.visible");
+  cy.get(Selector.BOTON_FINISH)
+    .should("be.visible")
+    .and("contain", "Finish")
+    .and("exist");
+  cy.get(Selector.BOTON_CANCEL)
+    .should("be.visible")
+    .and("contain", "Cancel")
+    .and("exist");
 });
 
 // Comando para calcular y validar el total
 Cypress.Commands.add("co_ValidarTotalCompra", () => {
   let sumaPrecios = 0;
-
   // Obtener todos los precios de los productos en el resumen
   cy.get(Selector.LISTA_PRECIOS_RESUMEN)
     .each(($precio) => {
@@ -124,6 +133,7 @@ Cypress.Commands.add("co_ValidarTotalCompra", () => {
     .then(() => {
       // Validar que el subtotal mostrado coincide con la suma
       cy.get(Selector.SUBTOTAL_LABEL)
+        .should("be.visible")
         .invoke("text")
         .then((subtotalTexto) => {
           const subtotalMostrado = parseFloat(
